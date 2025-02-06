@@ -24,8 +24,8 @@ export async function getEvents(req,res){
 
     try{
         let xyz;
-        if(id=="all"){await eventsData.find()}
-        else {await eventsData.find({"email":id})}
+        if(id=="all"){xyz=await eventsData.find()}
+        else { xyz = await eventsData.find({"email":id})}
 
         res.status(201).json({data:xyz});
     }

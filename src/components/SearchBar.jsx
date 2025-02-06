@@ -3,8 +3,11 @@ import { FaSearch } from "react-icons/fa";
 import { IoIosFunnel } from "react-icons/io";
 import { RiResetLeftLine } from "react-icons/ri";
 
-export function Searchbar(){
-    let eventTime=["All","Upcoming","Past"];
+export function Searchbar(props){
+
+    const {filter,setFilter}=props.filter;
+
+    let eventTime=["Upcoming","Past"];
     const [x,setX]=useState(0);
 
     let eventType=["All","Music","Dance","Classical","Meet","Standup"];
@@ -12,11 +15,12 @@ export function Searchbar(){
 
     const [isFilterActive,setIsFilterActive]=useState(false);
 
-    const handleReset=()=>{
-        document.getElementById("calender").value="";
+    function handleReset(){
+       if(document.getElementById("calender")){document.getElementById("calender").value="";}
+       if(document.getElementById("filterInput")){document.getElementById("filterInput").value="";}
         setX(0);
         setY(0);
-
+        setFilter({});
     }
     return (<>
     
@@ -24,7 +28,10 @@ export function Searchbar(){
         {
             !isFilterActive ?
             <div className="w-[60%] h-[60px] rounded-4xl shadow-black shadow-2xl flex place-items-center pl-3">
-            <input type="text" placeholder="Search Events" name="" id="" className="w-[95%] h-[55px] outline-0 rounded-4xl p-3 text-3xl" />
+            <input 
+            onChange={(e)=>{setFilter(()=>{return {...filter,text:e.target.value}})}}
+            
+            type="text" placeholder="Search Events" name="" id="filterInput" className="w-[95%] h-[55px] outline-0 rounded-4xl p-3 text-3xl" />
             </div> 
             
             : 
@@ -33,7 +40,7 @@ export function Searchbar(){
                 <div className="text-center flex place-items-center text-xs lg:text-xl w-[25%]">
                     <div className=" ">Events : </div>
                     <div className="cursor-pointer text-gray-500"
-                    onClick={()=>{setX( ()=>{if(x==2)return 0 ; return x+1})}}>{ eventTime[x]}</div>
+                    onClick={()=>{setX( ()=>{if(x==1)return 0 ; return x+1}); setFilter(()=>{return {...filter,events:x}})}}>{ eventTime[x]}</div>
                 </div>
 
                 <div className="border border-gray-300 h-[80%]"></div>
@@ -41,23 +48,31 @@ export function Searchbar(){
                 <div className="text-center flex place-items-center  text-xs lg:text-xl w-[25%]">
                     <div className=""> Type :</div>
                     <div className="cursor-pointer text-gray-500"
-                    onClick={()=>{setY( ()=>{if(y==5)return 0 ; return y+1})}}>{ eventType[y]}</div>
+                    onClick={()=>{setY( ()=>{if(y==5)return 0 ; return y+1}); setFilter(()=>{return {...filter,type:y}})}}>{ eventType[y]}</div>
                 </div>
 
                 <div className="border border-gray-300 h-[80%]"></div>
 
-                <div className="text-xs lg:text-xl w-[50%] ">Search by Date : <input type="date" id="calender" className="text-gray-500 cursor-pointer" /></div>
+                <div className="text-xs lg:text-xl w-[50%] ">Search by Date : 
+                    <input 
+                    onChange={(e)=>{ setFilter(()=>{return {...filter,date:e.target.value}})}}
+                    type="date" id="calender" className="text-gray-500 cursor-pointer" /></div>
             </div>
         }
+        <div className="flex ">
         {
             !isFilterActive ?
-             <IoIosFunnel onClick={()=>{setIsFilterActive(()=>!isFilterActive)}} className=" h-[50px] w-[50px] bg-gray-200 rounded-[100%] p-1 ml-2 cursor-pointer shadow-black shadow-2xl "></IoIosFunnel>
+             <>
+                <IoIosFunnel onClick={()=>{setIsFilterActive(()=>!isFilterActive)}} className=" h-[50px] w-[50px] bg-gray-200 rounded-[100%] p-1 ml-2 cursor-pointer shadow-black shadow-2xl duration-300 hover:scale-125 text-black"></IoIosFunnel>
+                <RiResetLeftLine onClick={handleReset} className=" h-[50px] w-[50px] bg-gray-200 rounded-[100%] p-1 ml-2 cursor-pointer shadow-black shadow-2xl duration-300 hover:-rotate-90 text-black" />
+             </>
              : 
              <>
-             <FaSearch onClick={()=>{setIsFilterActive(()=>!isFilterActive)}} className=" h-[50px] w-[50px] bg-gray-200 rounded-[100%] p-1 ml-2 cursor-pointer shadow-black shadow-2xl " />
-             <RiResetLeftLine onClick={handleReset} className=" h-[50px] w-[50px] bg-gray-200 rounded-[100%] p-1 ml-2 cursor-pointer shadow-black shadow-2xl " />
+                <FaSearch onClick={()=>{setIsFilterActive(()=>!isFilterActive)}} className=" h-[50px] w-[50px] bg-gray-200 rounded-[100%] p-1 ml-2 cursor-pointer shadow-black shadow-2xl duration-300 hover:scale-125 text-black " />
+                <RiResetLeftLine onClick={handleReset} className=" h-[50px] w-[50px] bg-gray-200 rounded-[100%] p-1 ml-2 cursor-pointer shadow-black shadow-2xl duration-300 hover:-rotate-90 text-black " />
              </>
         }
+        </div>
     </div>
     </>)
 }
