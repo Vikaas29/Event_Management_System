@@ -1,4 +1,6 @@
+
 import eventsData from "../models/dataModel.js";
+import { io } from "../server.js";
 
 export async function addEvent(req,res){
 
@@ -69,6 +71,7 @@ export async function addremovepeople(req,res){
 
         if(isInterested==true){
             data.data.people.push(newEmail);
+            io.to(room).emit('receive_message',`${newEmail} is interested in ${data.data.title}`);
         }
         else{
             data.data.people=data.data.people.filter(e=>!(e==newEmail));

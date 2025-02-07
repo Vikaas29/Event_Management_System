@@ -16,7 +16,7 @@ const app=new express();
 const server=http.createServer(app);
 
 
-const io=new Server(server); 
+export const io=new Server(server); 
 //we can also put here another parameter object for cors related data
 
 app.use(cors());
@@ -44,10 +44,15 @@ io.on("connection",(socket)=>{
     //to emit data to room specific user/users
     socket.on("join_room",(data)=>{
         socket.join(data);
-    })
-    socket.on("send_message",(data)=>{
-        socket.to(data.room).emit("recieve_message",data);   
-    })
+    });
+
+    socket.on('disconnect', () => {
+        console.log('User disconnected:', socket.id);
+      });
+
+    // socket.on("send_message",(data)=>{
+    //     socket.to(data.room).emit("recieve_message",data);   
+    // })
 
     // socket.on("send_message",(data)=>{
     //     // to emit this recieved with tag send_messege to everyone except sender

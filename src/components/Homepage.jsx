@@ -4,12 +4,14 @@ import { User } from "./User";
 import { HomeEvent } from "./HomeEvent";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
-// import io from "socket.io-client"
+import io from "socket.io-client"
 
 export function Homepage(){
   // const socket = io.connect("https://event-management-system-backend-phi.vercel.app");
   const notify = (message) => toast(message);
   
+    const[socket,setSocket]=useState(null);
+    cosnt [isConnected,setIsConnected]=useState(false);
     const navigate=useNavigate()
     const email=localStorage.getItem("email");
     const isGuest=localStorage.getItem("guest");
@@ -20,8 +22,6 @@ export function Homepage(){
 
 
     useEffect(()=>{
-
-      
       if(!email && isGuest!="true"){navigate("/login"); return}
 
        async function apiCall() {
@@ -35,6 +35,23 @@ export function Homepage(){
         
        }
        apiCall();
+
+       const newSocket=io(" https://event-management-system-backend-phi.vercel.app");
+       setSocket(newSocket);
+
+       newSocket.on("connect",()=>{setIsConnected(true);notify("socketConnected")});
+
+       newSocket.on("disconnect",()=>{setIsConnected(false);notify("socketDisconnected")});
+
+       newSocket.emit("join_room",email);
+
+       newSocket.on("receive_message",(data)=>{notify(data)});
+
+       return () => {
+        if (newSocket) {
+          newSocket.disconnect();
+        }
+      }
     },[])
 
     useEffect(() => {

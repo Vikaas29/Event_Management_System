@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 
 
 export function HomeEvent(props){
@@ -11,14 +11,15 @@ export function HomeEvent(props){
 
     const data=props.data.e.data;
 
-    const [isInterested,setIsInterested]=useState(true);
+    const [isInterested,setIsInterested]=useState(!data.people.includes(email));
+    const [isCallingApi,setIsCallingApi]=useState(false);
 
+    
     async function handleInterest(){
 
         try {
             // id,isInterested,newEmail
-
-            console.log("hello world")
+            setIsCallingApi((isCallingApi)=>!isCallingApi)
             const response= await fetch(" https://event-management-system-backend-phi.vercel.app/editpeople",{
                 method:"PUT",
                 headers:{
@@ -34,10 +35,13 @@ export function HomeEvent(props){
 
             const result=await response.json();
             notify("Action Completed");
-          setIsInterested(()=>!isInterested);
+          setIsInterested((isInterested)=>!isInterested);
         } catch (error) {
             console.log(error)
             notify(error);
+        }
+        finally{
+            setIsCallingApi((isCallingApi)=>!isCallingApi)
         }
     }
 
@@ -62,9 +66,9 @@ export function HomeEvent(props){
             :
             
                 isInterested ? 
-                <div onClick={()=>{ handleInterest() }} className=" bg-green-200 w-fit px-2 rounded-2xl shadow-black shadow-2xl duration-200 hover:scale-125">Interested ?</div>
+                <button disabled={isCallingApi} onClick={()=>{ handleInterest() }} className=" bg-green-200 w-fit px-2 rounded-2xl shadow-black shadow-2xl duration-200 hover:scale-125 cursor-pointer">Interested ?</button>
                 :
-                <div onClick={()=>{ handleInterest()}} className=" bg-gray-200 w-fit px-2 rounded-2xl shadow-black shadow-2xl duration-200 hover:scale-125">Not Interested !</div>
+                <button disabled={isCallingApi} onClick={()=>{ handleInterest()}} className=" bg-gray-200 w-fit px-2 rounded-2xl shadow-black shadow-2xl duration-200 hover:scale-125 cursor-pointer">Not Interested !</button>
             
             }
         </div>

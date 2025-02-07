@@ -183,7 +183,7 @@ export function UserPage(){
                 onClick={()=>{setInterestedList(()=>{return {...interestedList,visibility:!interestedList.visibility}})}}
                 className="w-fit cursor-pointer text-red-500" />
                 <div className="w-[100%] cursor-pointer text-2xl text-center text-gray-900">People Interested</div>
-                {interestedList.data.map((e)=><div className="text-gray-500">{e}</div>)}
+                {interestedList.data.map((e,index)=><div key={index} className="text-gray-500">{e}</div>)}
             </div>
         </div> : null}
 
