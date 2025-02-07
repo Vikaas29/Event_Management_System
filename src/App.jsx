@@ -12,20 +12,17 @@ function App() {
 
   useEffect(() => {
   
-    async function socketCall() {
+    
 
       const newSocket= io("https://event-management-system-backend-phi.vercel.app");
       setSocket(newSocket);
         newSocket.on("connect",()=>{notify("socketConnected")});
 
-        newSocket.on("disconnect",()=>{notify("socketDisconnected")});
+        // newSocket.on("disconnect",()=>{notify("socketDisconnected")});
 
         newSocket.emit("join_room",email);
 
        newSocket.on("receive_message",(data)=>{notify(data)});
-      
-    }
-    socketCall();
 
        return () => {
         if (socket) {
