@@ -1,4 +1,4 @@
-import { addEvent, deleteEvent, editEvent, getEvents } from "../controllers/dataController.js";
+import { addEvent, addremovepeople, deleteEvent, editEvent, getEvents } from "../controllers/dataController.js";
 import { checkLogin } from "../middlewares/checkLogin.js";
 
 export function dataRoutes(app){
@@ -11,4 +11,5 @@ export function dataRoutes(app){
 
     app.put("/editevent",checkLogin,editEvent);
 
+    app.put("/editpeople",checkLogin,addremovepeople)
 }

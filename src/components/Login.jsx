@@ -25,38 +25,42 @@ export function Login(){
             return;
         }
 
-        const saveUser=await fetch("https://notes-app-sand-six.vercel.app/login",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify({
-                email:email,
-                password:password
-            })
-        });
-
-        const message=await saveUser.json();
-        
-        if(message.User){
-            localStorage.setItem("userName",message.User.userName);
-            localStorage.setItem("email",message.User.email);
-            localStorage.setItem("jwt",message.token);
+        try {
+            const saveUser=await fetch("https://event-management-system-backend-phi.vercel.app/login",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({
+                    email:email,
+                    password:password
+                })
+            });
+    
+            const message=await saveUser.json();
+            
+            if(message.User){
+                localStorage.setItem("userName",message.User.userName);
+                localStorage.setItem("email",message.User.email);
+                localStorage.setItem("jwt",message.token);
+            }
+            notify(message.message);
+    
+    
+            if(message.message=="Login Successfull")
+            {
+                setTimeout(()=>{
+                navigate("/");
+            },1000);
         }
-        notify(message.message);
-
-
-        if(message.message=="Login Successfull")
-        {
-            setTimeout(()=>{
-            navigate("/");
-        },1000);
-    }
-
+    
+        } catch (error) {
+            notify(error);
+        }
     }
 
     return (<>
-
+    <ToastContainer />
     <div  className="w-[100%] text-2xl pl-5 backdrop-blur-md "><img onClick={()=>{navigate("/")}} src="/images/home.png" className="w-[60px] cursor-pointer" alt="" /></div>
     
     <div className="w-[100%] h-[80vh] flex flex-col justify-center items-center gap-10">
@@ -70,6 +74,9 @@ export function Login(){
             <div>
              Don't have a account? <span className="text-red-600 font-bold cursor-pointer" onClick={()=>{navigate("/register")}}>Register here</span>
             </div>
+            <div
+            onClick={()=>{localStorage.setItem("guest","true"); navigate("/")}}
+            className="text-red-600 font-bold cursor-pointer" >Guest Login</div>
         </form>
 
         

@@ -9,15 +9,18 @@ import { ToastContainer, toast } from 'react-toastify';
 export function UserPage(){
     const notify = (message) => toast(message);
     const email=localStorage.getItem("email");
-    const JWT = localStorage.getItem("jwt")
+    const JWT = localStorage.getItem("jwt");
+    const user = localStorage.getItem("userName")
     const [file,setFile]=useState(null);
     const [filter,setFilter]=useState({});
     const [eventsData,setEventsData]=useState(null);
-    const [interestedList,setInterestedList]=useState({visibility:false,data:[1,2,4,5,5]});
-    const [addEdit,setAddEdit]=useState({visibility:true,id:null,oldData:null,isEditing:false});
+    const [interestedList,setInterestedList]=useState({visibility:false,data:[]});
+    const [addEdit,setAddEdit]=useState({visibility:false,id:null,oldData:null,isEditing:false});
     const [isCallingApi,setIsCallingApi]=useState(false);
+    const [reload,setReload]=useState(false);
     const [image,setImage]=useState(null);
-    if(setAddEdit.oldData){setImage(setAddEdit.oldData.image)}
+    if(addEdit.oldData && image==null ){setImage(()=>addEdit.oldData.image)}
+    
 //    " https://event-management-system-backend-phi.vercel.app/"
 
 
@@ -27,11 +30,12 @@ export function UserPage(){
             const response=await fetch(`https://event-management-system-backend-phi.vercel.app/getevents/${email}`);
         const result= await response.json();
 
-        setEventsData(result);
+        setEventsData(result.data);
             
         }
         apifetch();
-    },[]);
+    },[reload]);
+    
 
     useEffect(()=>{
         async function handleImageUplaod() {
@@ -65,6 +69,7 @@ export function UserPage(){
     },[file])
 
     async function handleSaveEdit() {
+        
         let title=document.getElementById("title").value;
         let description=document.getElementById("description").value;
         let date=document.getElementById("date").value;
@@ -95,6 +100,7 @@ export function UserPage(){
             })
 
             const result=await response.json();
+            notify("Event Edited");
         }
         else{
             const upload={title,description,date,location,image,people:[]};
@@ -112,30 +118,58 @@ export function UserPage(){
             })
 
             const result=await response.json();
-            notify(result);
+            notify("Event Created");
         }
             
         } catch (error) {
             
         }
         finally{
-            setIsCallingApi(false);
-        // document.getElementById("title").value="";
-        // document.getElementById("description").value="";
-        // document.getElementById("date").value="";
-        // document.getElementById("location").value="";
+        setIsCallingApi(false);
+        setAddEdit({visibility:false,id:null,oldData:null,isEditing:false});
+        setReload(!reload)
+        document.getElementById("title").value="";
+        document.getElementById("description").value="";
+        document.getElementById("date").value="";
+        document.getElementById("location").value="";
 
         }
         
     }
 
+   const deleteEvent = async (id)=> {
+
+        try {
+            const response= await fetch(" https://event-management-system-backend-phi.vercel.app/deleteevent",{
+                method:"DELETE",
+                headers:{
+                    "Content-Type":"application/json",
+                    "authorization": `JWT ${JWT}`
+                },
+                body: JSON.stringify({
+                    id
+                })
+            })
+
+            const result=await response.json();
+            notify("Event Deleted");
+        } catch (error) {
+            notify(error)
+        }
+        finally{
+            setReload(!reload);
+        }
+        
+    }
     return (<>
         <ToastContainer />
-        <Searchbar filter={{filter,setFilter}}></Searchbar>
+        <div className="text-3xl text-center m-5 flex">{user} : <div className="text-gray-400">My Events</div></div>
         <User></User>
 
-        <div className="w-[100%] m-10 flex flex-wrap ">
-        <UserEvent data={{interestedList,setInterestedList}}></UserEvent>
+        <div className="w-[100%] flex flex-wrap justify-center my-5 items-center gap-10 ">
+        {
+           eventsData && eventsData.reverse().map((e,index)=><UserEvent key={index} data={{interestedList,setInterestedList,e,addEdit,setAddEdit,deleteEvent}}></UserEvent>)
+        }
         </div>
 
         <div 
@@ -143,20 +177,20 @@ export function UserPage(){
         className=" p-2 fixed bottom-[50px] left-[50px] w-fit flex gap-2 justify-center items-center cursor-pointer duration-300 hover:scale-125">
         <IoAddCircleSharp className="w-[50px] h-[50px] text-purple-200" /> Add Event</div>
 
-        { interestedList.visibility ?  <div className="absolute top-0 left-0 w-[100%] h-[100vh] flex justify-center items-center bg-[#000000d3] z-20">
+        { interestedList.visibility ?  <div className="fixed top-0 left-0 w-[100%] h-[100vh] flex justify-center items-center bg-[#000000d3] z-20">
             <div className=" w-[300px] h-[500px] p-5 bg-white rounded-2xl flex flex-col gap-3 overflow-auto">
                 <FaRegWindowClose 
                 onClick={()=>{setInterestedList(()=>{return {...interestedList,visibility:!interestedList.visibility}})}}
                 className="w-fit cursor-pointer text-red-500" />
                 <div className="w-[100%] cursor-pointer text-2xl text-center text-gray-900">People Interested</div>
-                {interestedList.data.map((e)=><div className="text-gray-500">kjasdbhnjkasd</div>)}
+                {interestedList.data.map((e)=><div className="text-gray-500">{e}</div>)}
             </div>
         </div> : null}
 
-        { addEdit.visibility ?  <div className="absolute top-0 left-0 w-[100%] h-[100vh] flex justify-center items-center bg-[#000000d3] z-20">
+        { addEdit.visibility ?  <div className="fixed top-0 left-0 w-[100%] h-[100vh] flex justify-center items-center bg-[#000000d3] z-20">
             <div className=" w-[300px] h-[500px] p-5 bg-white rounded-2xl flex flex-col gap-3 overflow-auto">
                 <FaRegWindowClose 
-                onClick={()=>{setAddEdit(()=>{return {...addEdit,visibility:!addEdit.visibility}})}}
+                onClick={()=>{setAddEdit(()=>{return {...addEdit,visibility:false,isEditing:false}})}}
                 className="w-fit cursor-pointer text-red-500" />
                 
                 <input type="text" id="title" defaultValue={addEdit.isEditing?addEdit.oldData.title:""} className="outline-0 shadow-black shadow-2xl w-[100%] h-[60px] p-2 rounded-xl" placeholder="Title" />

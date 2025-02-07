@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { FaRegUser } from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
 
 export function User(){
 
+    const navigate=useNavigate();
     const [isUserActive,setIsUserActive]=useState(false);
 
     return(<>
@@ -10,16 +12,19 @@ export function User(){
         isUserActive ? 
         <>
         <div className=" fixed right-[30px] bottom-[120px] z-10 ">
-            <div className="bg-gray-500 rounded-2xl shadow-black shadow-2xl text-center m-2 p-2 font-mono duration-300 cursor-pointer hover:scale-125">
+            <div
+            onClick={()=>{navigate("/userpage")}}
+            className="bg-gray-500 rounded-2xl shadow-black shadow-2xl text-center m-2 p-2 font-mono duration-300 cursor-pointer hover:scale-125">
                 My Events
             </div>
-            <div className="bg-gray-500 rounded-2xl shadow-black shadow-2xl text-center m-2 p-2 font-mono duration-300 cursor-pointer hover:scale-125">
-                My Interests
-            </div>
-            <div className="bg-gray-500 rounded-2xl shadow-black shadow-2xl text-center m-2 p-2 font-mono duration-300 cursor-pointer hover:scale-125">
+            <div
+            onClick={()=>{navigate("/")}}
+            className="bg-gray-500 rounded-2xl shadow-black shadow-2xl text-center m-2 p-2 font-mono duration-300 cursor-pointer hover:scale-125">
                 HomePage
             </div>
-            <div className="bg-gray-500 rounded-2xl shadow-black shadow-2xl text-center m-2 p-2 font-mono duration-300 cursor-pointer hover:scale-125">
+            <div
+            onClick={()=>{localStorage.clear();navigate("/login")}}
+            className="bg-gray-500 rounded-2xl shadow-black shadow-2xl text-center m-2 p-2 font-mono duration-300 cursor-pointer hover:scale-125">
                 Logout
             </div>
         </div>

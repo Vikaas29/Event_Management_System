@@ -20,7 +20,7 @@ export function Searchbar(props){
        if(document.getElementById("filterInput")){document.getElementById("filterInput").value="";}
         setX(0);
         setY(0);
-        setFilter({});
+        setFilter({events:true});
     }
     return (<>
     
@@ -40,7 +40,7 @@ export function Searchbar(props){
                 <div className="text-center flex place-items-center text-xs lg:text-xl w-[25%]">
                     <div className=" ">Events : </div>
                     <div className="cursor-pointer text-gray-500"
-                    onClick={()=>{setX( ()=>{if(x==1)return 0 ; return x+1}); setFilter(()=>{return {...filter,events:x}})}}>{ eventTime[x]}</div>
+                    onClick={()=>{setX( ()=>{if(x==1)return 0 ; return x+1}); setFilter(()=>{return {...filter,events:!filter.events}})}}>{ eventTime[x]}</div>
                 </div>
 
                 <div className="border border-gray-300 h-[80%]"></div>
