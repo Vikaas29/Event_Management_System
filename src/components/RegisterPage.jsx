@@ -1,11 +1,8 @@
-import { useState } from "react"
+import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-
-
+import { MyContext } from "../App";
 export function RegisterPage(){
-    const notify = (message) => toast(message);
-
+    const {notify}=useContext(MyContext);
     const navigate=useNavigate();
 
     const [email,setEmail]=useState();
@@ -25,7 +22,7 @@ export function RegisterPage(){
             return;
         }
 
-        const saveUser=await fetch("https://event-management-system-backend-phi.vercel.app/register",{
+        const saveUser=await fetch("https://event-management-system-9aat.onrender.com/register",{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -50,7 +47,6 @@ export function RegisterPage(){
     }
 
     return (<>
-    <ToastContainer />
     <div  className="w-[100%] text-2xl pl-5 backdrop-blur-md "><img onClick={()=>{navigate("/")}} src="/images/home.png" className="w-[60px] cursor-pointer" alt="" /></div>
     
     <div className="w-[100%] h-[80vh] flex flex-col justify-center items-center gap-10">

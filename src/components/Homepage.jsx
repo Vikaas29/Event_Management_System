@@ -1,15 +1,14 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Searchbar } from "./SearchBar";
 import { User } from "./User";
 import { HomeEvent } from "./HomeEvent";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
+import { MyContext } from "../App";
 
 export function Homepage(){
-  const notify = (message) => toast(message);
   
-    const[socket,setSocket]=useState(null);
-    const [isConnected,setIsConnected]=useState(false);
+   const {notify}=useContext(MyContext);
     const navigate=useNavigate()
     const email=localStorage.getItem("email");
     const isGuest=localStorage.getItem("guest");
@@ -22,7 +21,7 @@ export function Homepage(){
 
        async function apiCall() {
         
-        const response=await fetch("https://event-management-system-backend-phi.vercel.app/getevents/all");
+        const response=await fetch("https://event-management-system-9aat.onrender.com/getevents/all");
         const result= await response.json();
 
         setEventsData(result.data);
@@ -55,7 +54,7 @@ export function Homepage(){
     
 
     return (<>
-        <ToastContainer />
+        
         <Searchbar filter={{filter,setFilter}}></Searchbar>
         {
           isGuest=="true"? <div onClick={()=>{localStorage.clear();navigate("/login");}} className="fixed bottom-[50px] right-[50px] text-3xl bg-gray-500 rounded-2xl shadow-black shadow-2xl text-center m-2 p-2 font-mono duration-300 cursor-pointer hover:scale-125">Login</div>:<User></User>

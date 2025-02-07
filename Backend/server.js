@@ -85,6 +85,7 @@ app.put("/editpeople",async (req,res)=>{
         }
         else{
             data.data.people=data.data.people.filter(e=>!(e==newEmail));
+            io.to(data.email).emit('receive_message',`${newEmail} cancelled on ${data.data.title}`);
         }
 
         const xyz= await eventsData.updateOne({_id:id},{data:data.data});

@@ -1,18 +1,19 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect, useContext } from "react";
 import { IoAddCircleSharp } from "react-icons/io5";
 import { Searchbar } from "./SearchBar";
 import { User } from "./User";
 import {UserEvent} from "./UserEvent"
 import { FaRegWindowClose } from "react-icons/fa";
 import { ToastContainer, toast } from 'react-toastify';
+import { MyContext } from "../App";
 
 export function UserPage(){
-    const notify = (message) => toast(message);
+
+    const {reloadAPI,notify}=useContext(MyContext);
     const email=localStorage.getItem("email");
     const JWT = localStorage.getItem("jwt");
     const user = localStorage.getItem("userName")
     const [file,setFile]=useState(null);
-    const [filter,setFilter]=useState({});
     const [eventsData,setEventsData]=useState(null);
     const [interestedList,setInterestedList]=useState({visibility:false,data:[]});
     const [addEdit,setAddEdit]=useState({visibility:false,id:null,oldData:null,isEditing:false});
@@ -20,21 +21,20 @@ export function UserPage(){
     const [reload,setReload]=useState(false);
     const [image,setImage]=useState(null);
     if(addEdit.oldData && image==null ){setImage(()=>addEdit.oldData.image)}
-    
-//    " https://event-management-system-backend-phi.vercel.app/"
 
 
     useEffect(()=>{
 
         async function apifetch() {
-            const response=await fetch(`https://event-management-system-backend-phi.vercel.app/getevents/${email}`);
-        const result= await response.json();
+            const response=await fetch(`https://event-management-system-9aat.onrender.com/getevents/${email}`);
+            const result= await response.json();
 
-        setEventsData(result.data);
+            setEventsData(result.data);
             
         }
         apifetch();
-    },[reload]);
+        console.log("hello")
+    },[reload,reloadAPI]);
     
 
     useEffect(()=>{
@@ -86,7 +86,7 @@ export function UserPage(){
         if(addEdit.oldData){
             const upload={title,description,date,location,image,people:addEdit.oldData.people}
 
-            const response= await fetch(" https://event-management-system-backend-phi.vercel.app/editevent",{
+            const response= await fetch("https://event-management-system-9aat.onrender.com/editevent",{
                 method:"PUT",
                 headers:{
                     "Content-Type":"application/json",
@@ -105,7 +105,7 @@ export function UserPage(){
         else{
             const upload={title,description,date,location,image,people:[]};
 
-            const response= await fetch(" https://event-management-system-backend-phi.vercel.app/addevent",{
+            const response= await fetch("https://event-management-system-9aat.onrender.com/addevent",{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json",
@@ -140,7 +140,7 @@ export function UserPage(){
    const deleteEvent = async (id)=> {
 
         try {
-            const response= await fetch(" https://event-management-system-backend-phi.vercel.app/deleteevent",{
+            const response= await fetch("https://event-management-system-9aat.onrender.com/deleteevent",{
                 method:"DELETE",
                 headers:{
                     "Content-Type":"application/json",
@@ -162,7 +162,6 @@ export function UserPage(){
         
     }
     return (<>
-        <ToastContainer />
         <div className="text-3xl text-center m-5 flex">{user} : <div className="text-gray-400">My Events</div></div>
         <User></User>
 
@@ -177,7 +176,7 @@ export function UserPage(){
         className=" p-2 fixed bottom-[50px] left-[50px] w-fit flex gap-2 justify-center items-center cursor-pointer duration-300 hover:scale-125">
         <IoAddCircleSharp className="w-[50px] h-[50px] text-purple-200" /> Add Event</div>
 
-        { interestedList.visibility ?  <div className="fixed top-0 left-0 w-[100%] h-[100vh] flex justify-center items-center bg-[#000000d3] z-20">
+        { reloadAPI && interestedList.visibility ?  <div className="fixed top-0 left-0 w-[100%] h-[100vh] flex justify-center items-center bg-[#000000d3] z-20">
             <div className=" w-[300px] h-[500px] p-5 bg-white rounded-2xl flex flex-col gap-3 overflow-auto">
                 <FaRegWindowClose 
                 onClick={()=>{setInterestedList(()=>{return {...interestedList,visibility:!interestedList.visibility}})}}

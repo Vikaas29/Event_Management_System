@@ -18,9 +18,9 @@ export function HomeEvent(props){
     async function handleInterest(){
 
         try {
-            // id,isInterested,newEmail"https://event-management-system-backend-phi.vercel.app/editpeople"
+            // id,isInterested,newEmail"http://localhost:4000/editpeople"
             setIsCallingApi((isCallingApi)=>!isCallingApi)
-            const response= await fetch("http://localhost:4000/editpeople",{
+            const response= await fetch("https://event-management-system-9aat.onrender.com/editpeople",{
                 method:"PUT",
                 headers:{
                     "Content-Type":"application/json",
