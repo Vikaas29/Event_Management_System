@@ -80,7 +80,6 @@ app.put("/editpeople",async (req,res)=>{
         const data=await eventsData.findOne({_id:id});
 
         if(isInterested==true){
-            console.log(data.data.email);
             data.data.people.push(newEmail);
             io.to(data.email).emit('receive_message',`${newEmail} is interested in ${data.data.title}`);
         }
