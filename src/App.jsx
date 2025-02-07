@@ -11,14 +11,15 @@ function App() {
   const [socket,setSocket]=useState(null);
 
   useEffect(() => {
-      const newSocket= io("https://event-management-system-backend-phi.vercel.app");
-        // newSocket.on("connect",()=>{notify("socketConnected")});
+      // const newSocket= io("https://event-management-system-backend-phi.vercel.app");
+       const newSocket=io("http://localhost:4000")
+        newSocket.on("connect",()=>{notify("socketConnected")});
 
         // newSocket.on("disconnect",()=>{notify("socketDisconnected")});
 
-        // newSocket.emit("join_room",email);
+        newSocket.emit("join_room",email);
 
-      //  newSocket.on("receive_message",(data)=>{notify(data)});
+       newSocket.on("receive_message",(data)=>{notify(data)});
 
        return () => {
         if (socket) {

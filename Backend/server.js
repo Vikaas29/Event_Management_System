@@ -9,6 +9,7 @@ import { userRoutes } from "./routes/userRoutes.js";
 
 import dotenv from 'dotenv';
 import { dataRoutes } from "./routes/dataRoutes.js";
+import eventsData from "./models/dataModel.js";
 
 dotenv.config();
 
@@ -73,13 +74,15 @@ io.on("connection",(socket)=>{
 })
 
 app.put("/editpeople",async (req,res)=>{
+    
     const {id,isInterested,newEmail}=req.body
     try{
         const data=await eventsData.findOne({_id:id});
 
         if(isInterested==true){
+            console.log(data.data.email);
             data.data.people.push(newEmail);
-            io.to(room).emit('receive_message',`${newEmail} is interested in ${data.data.title}`);
+            io.to(data.email).emit('receive_message',`${newEmail} is interested in ${data.data.title}`);
         }
         else{
             data.data.people=data.data.people.filter(e=>!(e==newEmail));
@@ -90,6 +93,7 @@ app.put("/editpeople",async (req,res)=>{
         res.status(200).json("success");
     }
     catch(err){
+        
         res.status(500).send(err)
     }
 })
