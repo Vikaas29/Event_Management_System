@@ -65,7 +65,6 @@ export function Login(){
     }
 
     return (<>
-    <div  className="w-[100%] text-2xl pl-5 backdrop-blur-md "><img onClick={()=>{navigate("/")}} src="/images/home.png" className="w-[60px] cursor-pointer" alt="" /></div>
     
     <div className="w-[100%] h-[80vh] flex flex-col justify-center items-center gap-10">
     <div className="text-green-600 text-5xl ">Login</div>
