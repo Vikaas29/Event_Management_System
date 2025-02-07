@@ -16,7 +16,11 @@ const app=new express();
 const server=http.createServer(app);
 
 
-const io=new Server(server); 
+const io=new Server(server,{
+  cors: {
+    origin: "http://localhost:5173", // React app URL
+    methods: ["GET", "POST","DELETE","PUT"],
+  }}); 
 //we can also put here another parameter object for cors related data
 
 app.use(cors({

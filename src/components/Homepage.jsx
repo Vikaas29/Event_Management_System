@@ -36,7 +36,7 @@ export function Homepage(){
        }
        apiCall();
 
-       const newSocket=io.connect(" https://event-management-system-backend-phi.vercel.app");
+       const newSocket=io.connect("https://event-management-system-backend-phi.vercel.app");
        setSocket(newSocket);
 
        newSocket.on("connect",()=>{setIsConnected(true);notify("socketConnected")});
