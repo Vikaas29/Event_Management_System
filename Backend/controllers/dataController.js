@@ -61,25 +61,3 @@ export async function editEvent(req,res){
         res.status(500).send(err)
     }
 }
-
-export async function addremovepeople(req,res){
-    const {id,isInterested,newEmail}=req.body
-    try{
-        const data=await eventsData.findOne({_id:id});
-
-        if(isInterested==true){
-            data.data.people.push(newEmail);
-            io.to(room).emit('receive_message',`${newEmail} is interested in ${data.data.title}`);
-        }
-        else{
-            data.data.people=data.data.people.filter(e=>!(e==newEmail));
-        }
-
-        const xyz= await eventsData.updateOne({_id:id},{data:data.data});
-
-        res.status(200).json("success");
-    }
-    catch(err){
-        res.status(500).send(err)
-    }
-}

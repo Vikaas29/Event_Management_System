@@ -15,7 +15,7 @@ function App() {
     connectToSocket();
   }, [])
   function setter(){
-    setReload(count=>{console.log(count);return count+1;});
+    setReload(count=>{return count+1;});
     
   }
   function connectToSocket(){

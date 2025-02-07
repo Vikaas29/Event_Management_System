@@ -19,14 +19,14 @@ const server=http.createServer(app);
 
 const io=new Server(server,{
   cors: {
-    origin: "http://localhost:5173", // React app URL
+    origin: "http://localhost:5173", 
     methods: ["GET", "POST"],
     transports: ['websocket', 'polling'],
     credentials: true
   },
   allowEIO3: true
 }); 
-//we can also put here another parameter object for cors related data
+
 
 app.use(cors({
     origin:"http://localhost:5173", 
@@ -35,7 +35,6 @@ app.use(cors({
  }));
 app.use(express.json());
 
-// const router= express.Router();
 mongoose.connect(process.env.MONGO_PASSWORD);
 
 const db=mongoose.connection;
@@ -54,7 +53,7 @@ server.listen(4000,()=>{
 io.on("connection",(socket)=>{
     console.log("user connected " + socket.id);
 
-    //to emit data to room specific user/users
+
     socket.on("join_room",(data)=>{
         socket.join(data);
     });
@@ -62,15 +61,6 @@ io.on("connection",(socket)=>{
     socket.on('disconnect', () => {
         console.log('User disconnected:', socket.id);
       });
-
-    // socket.on("send_message",(data)=>{
-    //     socket.to(data.room).emit("recieve_message",data);   
-    // })
-
-    // socket.on("send_message",(data)=>{
-    //     // to emit this recieved with tag send_messege to everyone except sender
-    //     socket.broadcast.emit("recieve_message",data);   
-    // })
 })
 
 app.put("/editpeople",async (req,res)=>{

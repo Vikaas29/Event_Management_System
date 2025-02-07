@@ -1,6 +1,5 @@
 import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
 import { MyContext } from "../App";
 export function Login(){
     const {connectToSocket,notify}=useContext(MyContext);
@@ -9,6 +8,7 @@ export function Login(){
     const [email,setEmail]=useState();
     
     const [password,setPassword]=useState();
+    const[isCallingApi,setIsCallingApi]=useState(false);
 
     
     async function login(e){
@@ -25,6 +25,7 @@ export function Login(){
         }
 
         try {
+            setIsCallingApi(true);
             const saveUser=await fetch("https://event-management-system-9aat.onrender.com/login",{
                 method:"POST",
                 headers:{
@@ -58,6 +59,9 @@ export function Login(){
         } catch (error) {
             notify(error);
         }
+        finally{
+            setIsCallingApi(false);
+        }
     }
 
     return (<>
@@ -70,7 +74,7 @@ export function Login(){
             
             <input type="password" onChange={(e)=>{setPassword(e.target.value)}} placeholder="Password" className="bg-white w-[70%] text-xl p-[5px] rounded-lg text-black"/>
 
-            <button type="submit" onClick={(e)=>{login(e)}} className="border border-red-600 bg-red-600 font-bold w-[70%] text-xl p-[5px] rounded-lg duration-300 hover:text-black hover:scale-110">Submit</button>
+            <button type="submit" disabled={isCallingApi} onClick={(e)=>{login(e)}} className="border border-red-600 bg-red-600 font-bold w-[70%] text-xl p-[5px] rounded-lg duration-300 hover:text-black hover:scale-110">Submit</button>
             <div>
              Don't have a account? <span className="text-red-600 font-bold cursor-pointer" onClick={()=>{navigate("/register")}}>Register here</span>
             </div>

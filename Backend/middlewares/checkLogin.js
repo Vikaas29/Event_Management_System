@@ -1,12 +1,10 @@
 import jwt from "jsonwebtoken";
 import userModel from "../models/userModel.js";
 
-// middleware to verify JWT login 
 export async function checkLogin(req,res,next){
 
     const authHeader= req.headers["authorization"];
 
-    // to check the header
     if(!authHeader){
             res.status(404);
         return res.json({"message":"Authorization Header Not Found"});

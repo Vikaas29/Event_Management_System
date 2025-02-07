@@ -3,7 +3,6 @@ import { Searchbar } from "./SearchBar";
 import { User } from "./User";
 import { HomeEvent } from "./HomeEvent";
 import { useNavigate } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
 import { MyContext } from "../App";
 
 export function Homepage(){

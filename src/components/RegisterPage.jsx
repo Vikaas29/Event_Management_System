@@ -8,8 +8,10 @@ export function RegisterPage(){
     const [email,setEmail]=useState();
     const [username,setUsername]=useState();
     const [password,setPassword]=useState();
+    const[isCallingApi,setIsCallingApi]=useState(false);
 
     async function submit(e){
+        
         e.preventDefault();
 
         if(!email.includes("@") || !email.includes(".com")){
@@ -22,28 +24,36 @@ export function RegisterPage(){
             return;
         }
 
-        const saveUser=await fetch("https://event-management-system-9aat.onrender.com/register",{
-            method:"POST",
-            headers:{
-                "Content-Type":"application/json"
-            },
-            body: JSON.stringify({
-                userName:username,
-                email:email,
-                password:password
-            })
-        });
-
-        const message=await saveUser.json();
-        notify(message.message);
-
-        if(message.message=="Registeration Successfull")
-        {
-            setTimeout(()=>{
-            navigate("/login");
-        },1000);
-    }
-
+        try {
+            setIsCallingApi(true);
+            const saveUser=await fetch("https://event-management-system-9aat.onrender.com/register",{
+                method:"POST",
+                headers:{
+                    "Content-Type":"application/json"
+                },
+                body: JSON.stringify({
+                    userName:username,
+                    email:email,
+                    password:password
+                })
+            });
+    
+            const message=await saveUser.json();
+            notify(message.message);
+    
+            if(message.message=="Registeration Successfull")
+            {
+                setTimeout(()=>{
+                navigate("/login");
+            },1000);
+        }
+    
+        } catch (error) {
+            console.log(error)
+        }
+        finally{
+            setIsCallingApi(false);
+        }
     }
 
     return (<>
@@ -56,7 +66,7 @@ export function RegisterPage(){
             <input type="text" onChange={(e)=>{setUsername(e.target.value)}} placeholder="UserName" className="bg-white w-[70%] text-xl p-[5px] rounded-lg text-black" />
             <input type="password" onChange={(e)=>{setPassword(e.target.value)}} placeholder="Password" className="bg-white w-[70%] text-xl p-[5px] rounded-lg text-black"/>
 
-            <button type="submit" onClick={(e)=>{submit(e)}} className="border border-red-600 bg-red-600 font-bold w-[70%] text-xl p-[5px] rounded-lg duration-300 hover:text-black hover:scale-110">Submit</button>
+            <button type="submit" disabled={isCallingApi} onClick={(e)=>{submit(e)}} className="border border-red-600 bg-red-600 font-bold w-[70%] text-xl p-[5px] rounded-lg duration-300 hover:text-black hover:scale-110">Submit</button>
             <div>
              Have a account? <span className="text-red-600 font-bold cursor-pointer" onClick={()=>{navigate("/login")}}>Login here</span>
             </div>

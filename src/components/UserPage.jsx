@@ -1,10 +1,8 @@
 import { useState,useEffect, useContext } from "react";
 import { IoAddCircleSharp } from "react-icons/io5";
-import { Searchbar } from "./SearchBar";
 import { User } from "./User";
 import {UserEvent} from "./UserEvent"
 import { FaRegWindowClose } from "react-icons/fa";
-import { ToastContainer, toast } from 'react-toastify';
 import { MyContext } from "../App";
 
 export function UserPage(){
@@ -33,17 +31,12 @@ export function UserPage(){
             
         }
         apifetch();
-        console.log("hello")
     },[reload,reloadAPI]);
     
-
     useEffect(()=>{
         async function handleImageUplaod() {
-            try{
-                
+            try{   
             if(!file){return;}
-            // setUploading(true)
-            
             const imageData=new FormData();
             imageData.append("file",file);
             imageData.append("upload_preset","Email_Builder_Preset");
@@ -63,7 +56,6 @@ export function UserPage(){
             catch(err){
                 notify(err);
             }
-            // finally{setUploading(false)} 
         }
         handleImageUplaod();
     },[file])

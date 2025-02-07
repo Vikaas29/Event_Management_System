@@ -18,7 +18,7 @@ export function HomeEvent(props){
     async function handleInterest(){
 
         try {
-            // id,isInterested,newEmail"http://localhost:4000/editpeople"
+            
             setIsCallingApi((isCallingApi)=>!isCallingApi)
             const response= await fetch("https://event-management-system-9aat.onrender.com/editpeople",{
                 method:"PUT",
@@ -72,11 +72,6 @@ export function HomeEvent(props){
             
             }
         </div>
-        {/* <div className=" bg-purple-400 text-center w-[100%] h-[110px] flex flex-col justify-center items-center p-5 gap-5 ">
-        <div className="w-[100%]" >Location : this this delhi India</div>
-            
-            
-        </div> */}
     </div>
     </>)
 }
