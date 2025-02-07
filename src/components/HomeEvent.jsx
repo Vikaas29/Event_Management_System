@@ -3,10 +3,11 @@ import { useState } from "react"
 
 export function HomeEvent(props){
 
-    const {socket}=props.data;
+    const {notify}=props.data;
     
     const email=localStorage.getItem("email");
     const isGuest=localStorage.getItem("guest");
+    const JWT=localStorage.getItem("jwt");
 
     const data=props.data.e.data;
 
@@ -16,6 +17,8 @@ export function HomeEvent(props){
 
         try {
             // id,isInterested,newEmail
+
+            console.log("hello world")
             const response= await fetch(" https://event-management-system-backend-phi.vercel.app/editpeople",{
                 method:"PUT",
                 headers:{
@@ -31,8 +34,9 @@ export function HomeEvent(props){
 
             const result=await response.json();
             notify("Action Completed");
-        setIsInterested(()=>!isInterested);
+          setIsInterested(()=>!isInterested);
         } catch (error) {
+            console.log(error)
             notify(error);
         }
     }
@@ -58,9 +62,9 @@ export function HomeEvent(props){
             :
             
                 isInterested ? 
-                <div onClick={()=>{ handleInterest() }} className=" bg-green-200 w-fit px-2 rounded-2xl shadow-black shadow-2xl">Interested ?</div>
+                <div onClick={()=>{ handleInterest() }} className=" bg-green-200 w-fit px-2 rounded-2xl shadow-black shadow-2xl duration-200 hover:scale-125">Interested ?</div>
                 :
-                <div onClick={()=>{ handleInterest()}} className=" bg-gray-200 w-fit px-2 rounded-2xl shadow-black shadow-2xl">Not Interested !</div>
+                <div onClick={()=>{ handleInterest()}} className=" bg-gray-200 w-fit px-2 rounded-2xl shadow-black shadow-2xl duration-200 hover:scale-125">Not Interested !</div>
             
             }
         </div>

@@ -74,7 +74,7 @@ export async function addremovepeople(req,res){
             data.data.people=data.data.people.filter(e=>!(e==newEmail));
         }
 
-        const xyz= await eventsData.updateOne({_id:id},{data:data});
+        const xyz= await eventsData.updateOne({_id:id},{data:data.data});
 
         res.status(200).json("success");
     }

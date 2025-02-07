@@ -4,10 +4,10 @@ import { User } from "./User";
 import { HomeEvent } from "./HomeEvent";
 import { useNavigate } from "react-router-dom";
 import { ToastContainer, toast } from 'react-toastify';
-import io from "socket.io-client"
+// import io from "socket.io-client"
 
 export function Homepage(){
-  const socket = io.connect("https://event-management-system-backend-phi.vercel.app");
+  // const socket = io.connect("https://event-management-system-backend-phi.vercel.app");
   const notify = (message) => toast(message);
   
     const navigate=useNavigate()
@@ -22,7 +22,7 @@ export function Homepage(){
     useEffect(()=>{
 
       
-      if(!email && isGuest=="false"){navigate("/login"); return}
+      if(!email && isGuest!="true"){navigate("/login"); return}
 
        async function apiCall() {
         
@@ -59,7 +59,6 @@ export function Homepage(){
     
 
     return (<>
-
         <ToastContainer />
         <Searchbar filter={{filter,setFilter}}></Searchbar>
         {
@@ -67,7 +66,7 @@ export function Homepage(){
         }
 
         <div className="w-[100%] my-10 flex flex-wrap gap-10 justify-center items-center">
-            {eventsData && eventsData.map((e,index)=><HomeEvent key={index} data={{e,socket}}></HomeEvent>)}
+            {eventsData && eventsData.map((e,index)=><HomeEvent key={index} data={{e,notify}}></HomeEvent>)}
         </div>
 
     </>)
