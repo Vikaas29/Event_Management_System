@@ -1,7 +1,5 @@
 
 import eventsData from "../models/dataModel.js";
-import { io } from "../server.js";
-
 export async function addEvent(req,res){
 
     const {email,data}=req.body;

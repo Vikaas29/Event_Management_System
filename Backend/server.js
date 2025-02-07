@@ -16,7 +16,7 @@ const app=new express();
 const server=http.createServer(app);
 
 
-export const io=new Server(server); 
+const io=new Server(server); 
 //we can also put here another parameter object for cors related data
 
 app.use(cors({
@@ -62,6 +62,28 @@ io.on("connection",(socket)=>{
     //     // to emit this recieved with tag send_messege to everyone except sender
     //     socket.broadcast.emit("recieve_message",data);   
     // })
+})
+
+app.put("/editpeople",async (req,res)=>{
+    const {id,isInterested,newEmail}=req.body
+    try{
+        const data=await eventsData.findOne({_id:id});
+
+        if(isInterested==true){
+            data.data.people.push(newEmail);
+            io.to(room).emit('receive_message',`${newEmail} is interested in ${data.data.title}`);
+        }
+        else{
+            data.data.people=data.data.people.filter(e=>!(e==newEmail));
+        }
+
+        const xyz= await eventsData.updateOne({_id:id},{data:data.data});
+
+        res.status(200).json("success");
+    }
+    catch(err){
+        res.status(500).send(err)
+    }
 })
 
 

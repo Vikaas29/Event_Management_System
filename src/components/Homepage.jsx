@@ -36,22 +36,22 @@ export function Homepage(){
        }
        apiCall();
 
-      //  const newSocket=io.connect(" https://event-management-system-backend-phi.vercel.app");
-      //  setSocket(newSocket);
+       const newSocket=io.connect(" https://event-management-system-backend-phi.vercel.app");
+       setSocket(newSocket);
 
-      //  newSocket.on("connect",()=>{setIsConnected(true);notify("socketConnected")});
+       newSocket.on("connect",()=>{setIsConnected(true);notify("socketConnected")});
 
-      //  newSocket.on("disconnect",()=>{setIsConnected(false);notify("socketDisconnected")});
+       newSocket.on("disconnect",()=>{setIsConnected(false);notify("socketDisconnected")});
 
-      //  newSocket.emit("join_room",email);
+       newSocket.emit("join_room",email);
 
-      //  newSocket.on("receive_message",(data)=>{notify(data)});
+       newSocket.on("receive_message",(data)=>{notify(data)});
 
-      //  return () => {
-      //   if (newSocket) {
-      //     newSocket.disconnect();
-      //   }
-      // }
+       return () => {
+        if (newSocket) {
+          newSocket.disconnect();
+        }
+      }
     },[])
 
     useEffect(() => {

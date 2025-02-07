@@ -11,5 +11,5 @@ export function dataRoutes(app){
 
     app.put("/editevent",checkLogin,editEvent);
 
-    app.put("/editpeople",checkLogin,addremovepeople)
+    // app.put("/editpeople",checkLogin,addremovepeople)
 }
