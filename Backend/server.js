@@ -19,7 +19,11 @@ const server=http.createServer(app);
 export const io=new Server(server); 
 //we can also put here another parameter object for cors related data
 
-app.use(cors());
+app.use(cors({
+    origin:'*', 
+    credentials:true,       
+    optionSuccessStatus:200,
+ }));
 app.use(express.json());
 
 // const router= express.Router();
