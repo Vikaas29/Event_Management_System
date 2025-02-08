@@ -11,7 +11,7 @@ export function Homepage(){
     const navigate=useNavigate()
     const email=localStorage.getItem("email");
     const isGuest=localStorage.getItem("guest");
-    const [filter,setFilter]=useState({events:true});
+    const [filter,setFilter]=useState({events:true,type:"all"});
     const [eventsData,setEventsData]=useState(null);
     const [eventsData2,setEventsData2]=useState(null);
 

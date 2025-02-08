@@ -20,7 +20,7 @@ export function Searchbar(props){
        if(document.getElementById("filterInput")){document.getElementById("filterInput").value="";}
         setX(0);
         setY(0);
-        setFilter({events:true});
+        setFilter({events:true,type:"all"});
     }
     return (<>
     
