@@ -72,7 +72,7 @@ export function Homepage(){
         
         <Searchbar filter={{filter,setFilter}}></Searchbar>
         {
-          isGuest=="true"? <div onClick={()=>{localStorage.clear();navigate("/login");}} className="fixed bottom-[50px] right-[50px] text-3xl bg-gray-500 rounded-2xl shadow-black shadow-2xl text-center m-2 p-2 font-mono duration-300 cursor-pointer hover:scale-125">Login</div>:<User></User>
+          isGuest=="true"? <div onClick={()=>{localStorage.clear();navigate("/login");}} className="fixed z-30 bottom-[50px] right-[50px] text-3xl bg-gray-500 rounded-2xl shadow-black shadow-2xl text-center m-2 p-2 font-mono duration-300 cursor-pointer hover:scale-125">Login</div>:<User></User>
         }
 
         <div className="w-[100%] my-10 flex flex-wrap gap-10 justify-center items-center">

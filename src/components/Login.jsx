@@ -2,6 +2,7 @@ import { useContext, useState } from "react"
 import { useNavigate } from "react-router-dom";
 import { MyContext } from "../App";
 export function Login(){
+    localStorage.clear();
     const {connectToSocket,notify}=useContext(MyContext);
     const navigate=useNavigate();
 
