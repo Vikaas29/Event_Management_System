@@ -11,6 +11,7 @@ function App() {
   const notify = (message) => toast(message);
   const email=localStorage.getItem("email");
   const [reloadAPI,setReload]=useState(1);
+  const [socket,setSocket]=useState(null);
   useEffect(() => {
     connectToSocket();
   }, [])
@@ -21,6 +22,7 @@ function App() {
   function connectToSocket(){
     if(email){
       const newSocket= io("https://event-management-system-9aat.onrender.com");
+      setSocket(newSocket);
       
       newSocket.on("connect",()=>{notify("socketConnected")});
 
@@ -36,7 +38,7 @@ function App() {
     
     <>
       <ToastContainer />
-      <MyContext.Provider value={{reloadAPI,connectToSocket,notify}}>
+      <MyContext.Provider value={{reloadAPI,connectToSocket,notify,socket}}>
         <Outlet></Outlet>
       </MyContext.Provider>
     </>
