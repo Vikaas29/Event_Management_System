@@ -18,11 +18,9 @@ export function UserPage(){
     const [isCallingApi,setIsCallingApi]=useState(false);
     const [reload,setReload]=useState(false);
     const [image,setImage]=useState(null);
-    if(addEdit.oldData && image==null ){setImage(()=>addEdit.oldData.image)}
-
 
     useEffect(()=>{
-
+        
         async function apifetch() {
             const response=await fetch(`https://event-management-system-9aat.onrender.com/getevents/${email}`);
             const result= await response.json();
@@ -61,6 +59,7 @@ export function UserPage(){
     },[file])
 
     async function handleSaveEdit() {
+       
         
         let title=document.getElementById("title").value;
         let description=document.getElementById("description").value;
@@ -68,8 +67,7 @@ export function UserPage(){
         let location=document.getElementById("location").value;
         let type=document.getElementById("type").value;
 
-        if(!title || !description || !date ||!location || !image){
-            console.log(title,description,image,date,location)
+        if(!title || !description || !date ||!location){
             notify("Fields are mandatory");
             return;
         }
@@ -77,7 +75,13 @@ export function UserPage(){
             setIsCallingApi(true);
             
         if(addEdit.oldData){
-            const upload={title,description,date,location,image,type,people:addEdit.oldData.people}
+            
+            let newImage;
+            if(image==null){newImage=addEdit.oldData.image}
+            else{
+                newImage=image;
+            }
+            const upload={title,description,date,location,image:newImage,type,people:addEdit.oldData.people}
 
             const response= await fetch("https://event-management-system-9aat.onrender.com/editevent",{
                 method:"PUT",
@@ -96,6 +100,13 @@ export function UserPage(){
             notify("Event Edited");
         }
         else{
+            
+        
+            if(!image){
+                notify("Fields are mandatory");
+                 return; 
+             }
+
             const upload={title,description,date,location,image,type,people:[]};
 
             const response= await fetch("https://event-management-system-9aat.onrender.com/addevent",{
@@ -160,7 +171,7 @@ export function UserPage(){
 
         <div className="w-[100%] flex flex-wrap justify-center my-5 items-center gap-10 ">
         {
-           eventsData && eventsData.reverse().map((e,index)=><UserEvent key={index} data={{interestedList,setInterestedList,e,addEdit,setAddEdit,deleteEvent}}></UserEvent>)
+           eventsData && eventsData.map((e,index)=><UserEvent key={index} data={{interestedList,setInterestedList,e,addEdit,setAddEdit,deleteEvent}}></UserEvent>)
         }
         </div>
 

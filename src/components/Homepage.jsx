@@ -24,7 +24,7 @@ export function Homepage(){
         const result= await response.json();
 
         setEventsData(result.data);
-        setFilter({events:true});
+        setFilter({events:true,type:"all"});
         setEventsData2(result.data);
         
        }
@@ -50,7 +50,7 @@ export function Homepage(){
       }
 
       if(filter.type!="all"){
-        console.log("check")
+        
         filteredArray=filteredArray.filter(e=>{if(!e.data.type){return true} return filter.type==e.data.type});
       }
       setEventsData(()=>[...filteredArray]);  
