@@ -4,6 +4,7 @@ import { User } from "./User";
 import { HomeEvent } from "./HomeEvent";
 import { useNavigate } from "react-router-dom";
 import { MyContext } from "../App";
+import { Commet } from "react-loading-indicators";
 
 export function Homepage(){
   
@@ -58,6 +59,14 @@ export function Homepage(){
       
     }, [filter])
     
+    if(!eventsData){
+      return (<>
+      <Searchbar filter={{filter,setFilter}}></Searchbar>
+      <div className="w-[100] h-[85vh] flex justify-center items-center">
+      <Commet color="#32cd32" size="medium" text="" textColor="" />
+      </div>
+      </>)
+    }
 
     return (<>
         

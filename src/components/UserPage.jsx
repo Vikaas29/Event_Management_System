@@ -4,6 +4,7 @@ import { User } from "./User";
 import {UserEvent} from "./UserEvent"
 import { FaRegWindowClose } from "react-icons/fa";
 import { MyContext } from "../App";
+import { LifeLine } from "react-loading-indicators";
 
 export function UserPage(){
 
@@ -165,6 +166,17 @@ export function UserPage(){
         }
         
     }
+
+    if(!eventsData){
+        return (<>
+        <div className="text-3xl text-center m-5 flex">{user} : <div className="text-gray-400">My Events</div></div>
+        <User></User>
+        <div className="w-[100] h-[85vh] flex justify-center items-center">
+        <LifeLine color="#32cd32" size="medium" text="" textColor="" />
+        </div>
+        </>)
+      }
+
     return (<>
         <div className="text-3xl text-center m-5 flex">{user} : <div className="text-gray-400">My Events</div></div>
         <User></User>

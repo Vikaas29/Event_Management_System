@@ -65,6 +65,7 @@ export function Login(){
     }
 
     return (<>
+    <div className="text-red-600 fixed top-0 left-0 text-xs">***THE BACKEND OF THIS APPLICATION IS HOSTED ON RENDER, IT TAKES FEW SECONDS FOR THE SERVER TO RESTART WHEN IDLE FOR A WHILE .***</div>
     
     <div className="w-[100%] h-[80vh] flex flex-col justify-center items-center gap-10">
     <div className="text-green-600 text-5xl ">Login</div>

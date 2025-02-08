@@ -13,6 +13,7 @@ export function HomeEvent(props){
 
     const [isInterested,setIsInterested]=useState(!data.people.includes(email));
     const [isCallingApi,setIsCallingApi]=useState(false);
+    const [fullScreen,setFullScreen]=useState(false);
 
     
     async function handleInterest(){
@@ -45,6 +46,18 @@ export function HomeEvent(props){
         }
     }
 
+    function handleFullScreen(){
+
+        const targetDiv=document.getElementById(props.data.e._id);
+        if(document.fullscreenElement){
+            document.exitFullscreen();
+        }
+        else{
+            targetDiv.requestFullscreen();
+        }
+        setFullScreen(!fullScreen);
+    }
+
     return (<>
 
     <div className="w-[300px] h-[400px] shadow-black shadow-2xl rounded-2xl individualEventAnimation cursor-pointer relative overflow-hidden  duration-300 hover:scale-105">
@@ -54,8 +67,12 @@ export function HomeEvent(props){
             <div className="w-[60%] text-end">{data.location}</div>
         </div>
         <div className="flex flex-col justify-center items-center w-[100%] p-3 text-center gap-2 overflow-hidden">
-            <img 
-            className="w-[250px] h-[200px] rounded-2xl shadow-black shadow-2xl"
+            <img
+            onClick={()=>{
+                setFullScreen(!fullScreen);
+                handleFullScreen();
+            }} 
+            className="w-[250px] h-[200px] rounded-2xl shadow-black shadow-2xl" id={props.data.e._id}
             src={data.image.url} alt="" />
 
             <div className="text-2xl w-[250px] ">{data.title}</div>
