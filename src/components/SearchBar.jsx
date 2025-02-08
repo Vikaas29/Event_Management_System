@@ -24,10 +24,10 @@ export function Searchbar(props){
     }
     return (<>
     
-    <div className="w-[100%] flex justify-center items-center mt-7 text-purple-500">
+    <div className="w-[100%] flex flex-col sm:flex-row gap-2 justify-center items-center mt-7 text-purple-500">
         {
             !isFilterActive ?
-            <div className="w-[60%] h-[60px] rounded-4xl shadow-black shadow-2xl flex place-items-center pl-3">
+            <div className="w-[90%] sm:w-[70%] h-[60px] rounded-4xl shadow-black shadow-2xl flex place-items-center pl-3">
             <input 
             onChange={(e)=>{setFilter(()=>{return {...filter,text:e.target.value}})}}
             
@@ -36,7 +36,7 @@ export function Searchbar(props){
             
             : 
             
-            <div className="w-[60%] h-[60px] rounded-4xl shadow-black shadow-2xl flex justify-center items-center gap-3 pl-3">
+            <div className="w-[90%] sm:w-[70%] h-[60px] rounded-4xl shadow-black shadow-2xl flex justify-center items-center gap-3 pl-3">
                 <div className="text-center flex place-items-center text-xs lg:text-xl w-[25%]">
                     <div className=" ">Events : </div>
                     <div className="cursor-pointer text-gray-500"
