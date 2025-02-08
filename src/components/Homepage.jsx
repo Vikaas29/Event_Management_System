@@ -50,6 +50,7 @@ export function Homepage(){
       }
 
       if(filter.type!="all"){
+        console.log("check")
         filteredArray=filteredArray.filter(e=>{if(!e.data.type){return true} return filter.type==e.data.type});
       }
       setEventsData(()=>[...filteredArray]);  
