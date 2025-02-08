@@ -1,3 +1,4 @@
+import { checkserverstatus } from "../controllers/checkServer.js";
 import { addEvent, deleteEvent, editEvent, getEvents } from "../controllers/dataController.js";
 import { checkLogin } from "../middlewares/checkLogin.js";
 
@@ -10,5 +11,7 @@ export function dataRoutes(app){
     app.delete("/deleteevent",checkLogin,deleteEvent);
 
     app.put("/editevent",checkLogin,editEvent);
+
+    app.get("/checkserver",checkserverstatus)
 
 }

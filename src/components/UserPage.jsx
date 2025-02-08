@@ -66,6 +66,7 @@ export function UserPage(){
         let description=document.getElementById("description").value;
         let date=document.getElementById("date").value;
         let location=document.getElementById("location").value;
+        let type=document.getElementById("type").value;
 
         if(!title || !description || !date ||!location || !image){
             console.log(title,description,image,date,location)
@@ -76,7 +77,7 @@ export function UserPage(){
             setIsCallingApi(true);
             
         if(addEdit.oldData){
-            const upload={title,description,date,location,image,people:addEdit.oldData.people}
+            const upload={title,description,date,location,image,type,people:addEdit.oldData.people}
 
             const response= await fetch("https://event-management-system-9aat.onrender.com/editevent",{
                 method:"PUT",
@@ -95,7 +96,7 @@ export function UserPage(){
             notify("Event Edited");
         }
         else{
-            const upload={title,description,date,location,image,people:[]};
+            const upload={title,description,date,location,image,type,people:[]};
 
             const response= await fetch("https://event-management-system-9aat.onrender.com/addevent",{
                 method:"POST",
@@ -186,6 +187,16 @@ export function UserPage(){
                 
                 <input type="text" id="title" defaultValue={addEdit.isEditing?addEdit.oldData.title:""} className="outline-0 shadow-black shadow-2xl w-[100%] h-[60px] p-2 rounded-xl" placeholder="Title" />
                 <textarea id="description" defaultValue={addEdit.isEditing?addEdit.oldData.description:""} className="outline-0 shadow-black shadow-2xl w-[100%] h-[200px] p-2 rounded-xl" placeholder="Description" name="" ></textarea>
+                <div className="flex">
+                    <div>Type : </div>
+                    <select name="type" id="type" defaultValue={addEdit.isEditing && addEdit.oldData.type ?addEdit.oldData.type:"music"}>
+                        <option value="music">music</option>
+                        <option value="dance">dance</option>
+                        <option value="classical">classical</option>
+                        <option value="meet">meet</option>
+                        <option value="standup">standup</option>
+                     </select>
+                    </div>
                 <input type="date" id="date" defaultValue={addEdit.isEditing?addEdit.oldData.date:""} className="outline-0 border border-black shadow-black shadow-2xl w-[100%] h-[30px] p-2 rounded-xl"/>
                 <input type="text" id="location" defaultValue={addEdit.isEditing?addEdit.oldData.location:""} className="outline-0 shadow-black shadow-2xl w-[100%] h-[30px] p-2 rounded-xl" placeholder="Location" />
                 <input type="file" onChange={(e)=>{setFile(e.target.files[0]);}}  id="photo" className="outline-0 shadow-black shadow-2xl w-[100%] h-[30px] p-2 rounded-xl" placeholder="Location" accept="image/png, image/gif, image/jpeg" />

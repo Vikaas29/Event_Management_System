@@ -19,7 +19,7 @@ const server=http.createServer(app);
 
 const io=new Server(server,{
   cors: {
-    origin: "https://event-management-system-eight-teal.vercel.app", 
+    origin: ["https://event-management-system-eight-teal.vercel.app","http://localhost:5173"], 
     methods: ["GET", "POST"],
     transports: ['websocket', 'polling'],
     credentials: true
@@ -29,7 +29,7 @@ const io=new Server(server,{
 
 
 app.use(cors({
-    origin:"https://event-management-system-eight-teal.vercel.app", 
+    origin:["https://event-management-system-eight-teal.vercel.app","http://localhost:5173/"], 
     credentials:true,       
     optionSuccessStatus:200,
  }));
