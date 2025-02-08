@@ -10,7 +10,7 @@ export function Searchbar(props){
     let eventTime=["Upcoming","Past"];
     const [x,setX]=useState(0);
 
-    let eventType=["All","Music","Dance","Classical","Meet","Standup"];
+    let eventType=["all","music","dance","classical","meet","standup"];
     const [y,setY]=useState(0);
 
     const [isFilterActive,setIsFilterActive]=useState(false);
@@ -48,7 +48,7 @@ export function Searchbar(props){
                 <div className="text-center flex place-items-center  text-xs lg:text-xl w-[25%]">
                     <div className=""> Type :</div>
                     <div className="cursor-pointer text-gray-500"
-                    onClick={()=>{setY( ()=>{if(y==5)return 0 ; return y+1}); setFilter(()=>{return {...filter,type:y}})}}>{ eventType[y]}</div>
+                    onClick={()=>{let z;setY( ()=>{if(y==5){z=0 ;return 0} ; z=y+1; return y+1}); setFilter(()=>{return {...filter,type:eventType[z]}})}}>{ eventType[y]}</div>
                 </div>
 
                 <div className="border border-gray-300 h-[80%]"></div>

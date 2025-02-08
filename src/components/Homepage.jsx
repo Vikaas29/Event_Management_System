@@ -48,7 +48,13 @@ export function Homepage(){
         else
       filteredArray= filteredArray.filter((e)=>{ return Date.parse(e.data.date)<Date.now()})
       }
-      setEventsData(()=>[...filteredArray]);      
+
+      if(filter.type!="all"){
+        filteredArray=filteredArray.filter(e=>{if(!e.data.type){return true} return filter.type==e.data.type});
+      }
+      setEventsData(()=>[...filteredArray]);  
+      
+      
     }, [filter])
     
 
