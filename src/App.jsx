@@ -17,10 +17,10 @@ function App() {
   }, [])
   function setter(){
     setReload(count=>{return count+1;});
-    
   }
   function connectToSocket(){
-    if(email){
+    
+    if(localStorage.getItem("email")){
       const newSocket= io("https://event-management-system-9aat.onrender.com");
       setSocket(newSocket);
       

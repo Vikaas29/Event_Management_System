@@ -5,6 +5,7 @@ import { MyContext } from "../App";
 export function User(){
 
     const {socket}=useContext(MyContext);
+    
     const navigate=useNavigate();
     const [isUserActive,setIsUserActive]=useState(false);
 
@@ -24,7 +25,7 @@ export function User(){
                 HomePage
             </div>
             <div
-            onClick={()=>{localStorage.clear();navigate("/login") }}
+            onClick={()=>{localStorage.clear();if(socket){socket.disconnect()};navigate("/login") }}
             className="bg-gray-500 rounded-2xl shadow-black shadow-2xl text-center m-2 p-2 font-mono duration-300 cursor-pointer hover:scale-125">
                 Logout
             </div>
