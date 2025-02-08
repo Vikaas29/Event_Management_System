@@ -62,7 +62,7 @@ export function Homepage(){
     if(!eventsData){
       return (<>
       <Searchbar filter={{filter,setFilter}}></Searchbar>
-      <div className="w-[100] h-[85vh] flex justify-center items-center">
+      <div className="w-[100%] h-[85vh] flex justify-center items-center">
       <Commet color="#32cd32" size="medium" text="" textColor="" />
       </div>
       </>)
