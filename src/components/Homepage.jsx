@@ -17,7 +17,7 @@ export function Homepage(){
     const [eventsData2,setEventsData2]=useState(null);
 
     useEffect(()=>{
-      if(!email && isGuest!="true"){navigate("/login"); return}
+      if(!email && isGuest!="true"){localStorage.setItem("guest","true")}
 
        async function apiCall() {
         

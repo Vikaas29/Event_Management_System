@@ -6,6 +6,7 @@ import Login from './components/Login.jsx';
 import RegisterPage from './components/RegisterPage.jsx';
 import HomePage from './components/Homepage.jsx';
 import UserPage from './components/UserPage.jsx';
+import Error from './components/Error.jsx';
 
 const appRouter=createBrowserRouter([
   {
@@ -28,7 +29,8 @@ const appRouter=createBrowserRouter([
       path:"/userpage",
       element:<UserPage></UserPage>,
     },
-  ]
+  ],
+  errorElement:<Error></Error>
   }
 ])
 
