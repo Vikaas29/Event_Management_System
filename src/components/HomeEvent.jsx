@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react"
+import { useNavigate } from "react-router-dom";
 
 
 export function HomeEvent(props){
+
+    const navigate=useNavigate();
 
     const {notify}=props.data;
     
@@ -77,7 +80,7 @@ export function HomeEvent(props){
 
             <div className="text-2xl w-[250px] ">{data.title}</div>
             <div className=" text-xs w-[250px] h-[60px] text-wrap truncate hover:overflow-auto rounded-2xl duration-200 hover:shadow-black hover:shadow-2xl">{data.description}</div>
-            {isGuest=="true"? <div className=" bg-green-200 w-fit px-2 rounded-2xl shadow-black shadow-2xl">Login to Book</div> :
+            {isGuest=="true"? <div onClick={()=>{navigate("/login")}} className=" bg-green-200 w-fit px-2 rounded-2xl shadow-black shadow-2xl">Login to Book</div> :
             email==props.data.e.email ? 
             <div  className=" bg-green-200 w-fit px-2 rounded-2xl shadow-black shadow-2xl">This is your event</div>
             :
